@@ -1,0 +1,45 @@
+<div>
+  <label for="flightType">Uçuş Türü:</label>
+  <select id="flightType" [(ngModel)]="flightType" name="flightType">
+    <option value="oneWay">Tek Yönlü</option>
+    <option value="roundTrip">Gidiş-Dönüş</option>
+  </select>
+
+  <label for="departureAirport">Kalkış Havaalanı:</label>
+  <input
+    type="text"
+    id="departureAirport"
+    [(ngModel)]="departureAirport"
+    name="departureAirport"
+  />
+
+  <label for="arrivalAirport">Varış Havaalanı:</label>
+  <input
+    *ngIf="flightType === 'oneWay'"
+    type="text"
+    id="arrivalAirport"
+    [(ngModel)]="arrivalAirport"
+    name="arrivalAirport"
+  />
+
+  <label for="departureDate">Kalkış Tarihi:</label>
+  <input
+    type="date"
+    id="departureDate"
+    [(ngModel)]="departureDate"
+    name="departureDate"
+  />
+
+  <label *ngIf="flightType === 'roundTrip'" for="arrivalDate"
+    >Varış Tarihi:</label
+  >
+  <input
+    *ngIf="flightType === 'roundTrip'"
+    type="date"
+    id="arrivalDate"
+    [(ngModel)]="arrivalDate"
+    name="arrivalDate"
+  />
+
+  <button (click)="searchFlights()">Uçuşları Ara</button>
+</div>
