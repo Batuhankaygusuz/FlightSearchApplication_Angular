@@ -1,45 +1,118 @@
-<div>
-  <label for="flightType">Uçuş Türü:</label>
-  <select id="flightType" [(ngModel)]="flightType" name="flightType">
-    <option value="oneWay">Tek Yönlü</option>
-    <option value="roundTrip">Gidiş-Dönüş</option>
-  </select>
+<form #flightSearchForm="ngForm" (ngSubmit)="searchFlights()">
+  <div>
+    <label for="departureAirport">Kalkış Havaalanı:</label>
+    <input
+      type="text"
+      id="departureAirport"
+      name="departureAirport"
+      [(ngModel)]="departureAirport"
+      (input)="searchAirports(departureAirport, 'departure')"
+      required
+    />
+    <ul *ngIf="departureAirports.length > 0">
+      <li
+        *ngFor="let airport of departureAirports"
+        (click)="selectAirport(airport, 'departure')"
+      >
+        {{ airport.name }} ({{ airport.code }})
+      </li>
+    </ul>
+  </div>
+  <div>
+    <label for="arrivalAirport">Varış Havaalanı:</label>
+    <input
+      type="text"
+      id="arrivalAirport"
+      [(ngModel)]="arrivalAirport"
+      (input)="searchAirports(arrivalAirport, 'arrival')"
+    />
+    <ul *ngIf="arrivalAirports.length > 0">
+      <li
+        *ngFor="let airport of arrivalAirports"
+        (click)="selectAirport(airport, 'arrival')"
+      >
+        {{ airport.name }} ({{ airport.code }})
+      </li>
+    </ul>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Kalkış Tarihi</mat-label>
+      <input
+        matInput
+        [matDatepicker]="departurePicker"
+        placeholder="Kalkış Tarihi"
+        [(ngModel)]="departureDate"
+        name="departureDate"
+        required
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="departurePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #departurePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div *ngIf="!oneWay">
+    <mat-form-field>
+      <mat-label>Dönüş Tarihi</mat-label>
+      <input
+        matInput
+        [matDatepicker]="returnPicker"
+        placeholder="Dönüş Tarihi"
+        [(ngModel)]="returnDate"
+        name="returnDate"
+        required
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="returnPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #returnPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div>
+    <input type="checkbox" id="oneWay" [(ngModel)]="oneWay" name="oneWay" />
+    <label for="oneWay">Tek Yönlü Uçuş</label>
+  </div>
+  <button type="submit" [disabled]="!flightSearchForm.form.valid">
+    Uçuşları Ara
+  </button>
 
-  <label for="departureAirport">Kalkış Havaalanı:</label>
-  <input
-    type="text"
-    id="departureAirport"
-    [(ngModel)]="departureAirport"
-    name="departureAirport"
-  />
+  <div *ngIf="selectedDeparture">
+    <p>
+      Seçilen Kalkış Havaalanı: {{ selectedDeparture.name }} ({{
+        selectedDeparture.code
+      }})
+    </p>
+  </div>
+  <div *ngIf="selectedArrival">
+    <p>
+      Seçilen Varış Havaalanı: {{ selectedArrival.name }} ({{
+        selectedArrival.code
+      }})
+    </p>
+  </div>
 
-  <label for="arrivalAirport">Varış Havaalanı:</label>
-  <input
-    *ngIf="flightType === 'oneWay'"
-    type="text"
-    id="arrivalAirport"
-    [(ngModel)]="arrivalAirport"
-    name="arrivalAirport"
-  />
+  <div *ngIf="searchResults.length > 0">
+    <h2>Uçuş Sonuçları</h2>
+    <ul>
+      <li *ngFor="let flight of searchResults">
+        Kalkış: {{ flight.departure }} Varış: {{ flight.arrival }} Tarih:
+        {{ flight.date }}
+      </li>
+    </ul>
+  </div>
+  <button (click)="sortFlights()">Kalkış Saatine Göre Sırala</button>
+  <button (click)="sortFlights()">Dönüş Saatine Göre Sırala</button>
+  <button (click)="sortFlights()">Uçuş Uzunluğuna Göre Sırala</button>
+  <button (click)="sortFlights()">Fiyata Göre Sırala</button>
 
-  <label for="departureDate">Kalkış Tarihi:</label>
-  <input
-    type="date"
-    id="departureDate"
-    [(ngModel)]="departureDate"
-    name="departureDate"
-  />
-
-  <label *ngIf="flightType === 'roundTrip'" for="arrivalDate"
-    >Varış Tarihi:</label
-  >
-  <input
-    *ngIf="flightType === 'roundTrip'"
-    type="date"
-    id="arrivalDate"
-    [(ngModel)]="arrivalDate"
-    name="arrivalDate"
-  />
-
-  <button (click)="searchFlights()">Uçuşları Ara</button>
-</div>
+  <ul>
+    <li *ngFor="let flight of flights">
+      Kalkış Saati: {{ flight.departureTime }} Dönüş Saati:
+      {{ flight.arrivalTime }} Uçuş Uzunluğu: {{ flight.flightLength }} saat
+      Fiyat: {{ flight.price }} TL
+    </li>
+  </ul>
+</form>
