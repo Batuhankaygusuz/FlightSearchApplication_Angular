@@ -1,3 +1,5 @@
+<h1>Flight Search Application</h1>
+
 <form #flightSearchForm="ngForm" (ngSubmit)="searchFlights()">
   <div>
     <label for="departureAirport">Kalkış Havaalanı:</label>
@@ -93,6 +95,11 @@
       }})
     </p>
   </div>
+  <ul>
+    <li *ngFor="let flight of flights">
+      <!-- Uçuş bilgilerini listeleyin -->
+    </li>
+  </ul>
 
   <div *ngIf="searchResults.length > 0">
     <h2>Uçuş Sonuçları</h2>
@@ -103,10 +110,18 @@
       </li>
     </ul>
   </div>
-  <button (click)="sortFlights()">Kalkış Saatine Göre Sırala</button>
-  <button (click)="sortFlights()">Dönüş Saatine Göre Sırala</button>
-  <button (click)="sortFlights()">Uçuş Uzunluğuna Göre Sırala</button>
-  <button (click)="sortFlights()">Fiyata Göre Sırala</button>
+  <button (click)="sortOrder = 'departureTime'; sortFlights()">
+    Kalkış Saatine Göre Sırala
+  </button>
+  <button (click)="sortOrder = 'arrivalTime'; sortFlights()">
+    Dönüş Saatine Göre Sırala
+  </button>
+  <button (click)="sortOrder = 'flightLength'; sortFlights()">
+    Uçuş Uzunluğuna Göre Sırala
+  </button>
+  <button (click)="sortOrder = 'price'; sortFlights()">
+    Fiyata Göre Sırala
+  </button>
 
   <ul>
     <li *ngFor="let flight of flights">

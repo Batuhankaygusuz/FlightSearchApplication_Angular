@@ -11,29 +11,9 @@ export class MockAirportApiServiceService {
     const lowerCaseQuery = query.toLowerCase();
     const matchingAirports = mockAirports.filter(
       (airport) =>
-        airport.name.toLowerCase().includes(lowerCaseQuery) ||
+        airport.departureTime.toLowerCase().includes(lowerCaseQuery) ||
         airport.code.toLowerCase().includes(lowerCaseQuery)
     );
     return of(matchingAirports);
-  }
-
-  private flights = [
-    {
-      departure: mockAirports[0],
-      arrival: mockAirports[1],
-      date: '2023-08-30',
-      price: 1000,
-    },
-    {
-      departure: mockAirports[1],
-      arrival: mockAirports[0],
-      date: '2023-09-05',
-      price: 950,
-    },
-    // ... diğer uçuşlar ...
-  ];
-
-  getFlights(): Observable<any[]> {
-    return of(this.flights);
   }
 }

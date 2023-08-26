@@ -19,17 +19,11 @@ export class FlightAramaComponent {
   flights: any[] = [];
   sortBy: string = '';
   selectedArrival: any = null;
+  sortOrder: string = ''; // 'departureTime', 'arrivalTime', 'flightLength', 'price'
 
   constructor(
     private mockAirportApiServiceService: MockAirportApiServiceService
-  ) {
-    this.getFlights();
-  }
-  getFlights() {
-    this.mockAirportApiServiceService.getFlights().subscribe((data) => {
-      this.flights = data;
-    });
-  }
+  ) {}
 
   searchAirports(query: string, type: 'departure' | 'arrival') {
     this.mockAirportApiServiceService
@@ -51,19 +45,18 @@ export class FlightAramaComponent {
   }
 
   sortFlights() {
-    if (this.sortBy === 'departureTime') {
+    if (this.sortOrder === 'departureTime') {
       this.flights.sort((a, b) =>
         a.departureTime.localeCompare(b.departureTime)
       );
-    } else if (this.sortBy === 'arrivalTime') {
+    } else if (this.sortOrder === 'arrivalTime') {
       this.flights.sort((a, b) => a.arrivalTime.localeCompare(b.arrivalTime));
-    } else if (this.sortBy === 'flightLength') {
+    } else if (this.sortOrder === 'flightLength') {
       this.flights.sort((a, b) => a.flightLength - b.flightLength);
-    } else if (this.sortBy === 'price') {
+    } else if (this.sortOrder === 'price') {
       this.flights.sort((a, b) => a.price - b.price);
     }
   }
-
   searchFlights() {
     // Uçuş arama işlemleri burada yapılabilir
     console.log('Kalkış:', this.departureAirport);
