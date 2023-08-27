@@ -7,7 +7,6 @@ import { mockAirports } from './mock-flights';
 })
 export class MockAirportApiServiceService {
   searchAirports(query: string): Observable<any[]> {
-    // Mock verilerde sorgulama yaparak sonuç döndürme
     const lowerCaseQuery = query.toLowerCase();
     const matchingAirports = mockAirports.filter(
       (airport) =>

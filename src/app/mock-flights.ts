@@ -26,5 +26,4 @@ export const mockAirports = [
     flightLength: 2.5,
     price: 180,
   },
-  // ... Diğer havaalanları ...
 ];

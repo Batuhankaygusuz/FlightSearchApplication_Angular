@@ -12,14 +12,14 @@ export class FlightAramaComponent {
   departureDate: string = '';
   returnDate: string = '';
   oneWay: boolean = false;
-  searchResults: any[] = []; // Uçuş sonuçlarını tutmak için boş bir dizi oluşturuldu.
+  searchResults: any[] = [];
   departureAirports: any[] = [];
   arrivalAirports: any[] = [];
   selectedDeparture: any = null;
   flights: any[] = [];
   sortBy: string = '';
   selectedArrival: any = null;
-  sortOrder: string = ''; // 'departureTime', 'arrivalTime', 'flightLength', 'price'
+  sortOrder: string = '';
 
   constructor(
     private mockAirportApiServiceService: MockAirportApiServiceService
@@ -58,7 +58,6 @@ export class FlightAramaComponent {
     }
   }
   searchFlights() {
-    // Uçuş arama işlemleri burada yapılabilir
     console.log('Kalkış:', this.departureAirport);
     console.log('Varış:', this.arrivalAirport);
     console.log('Kalkış Tarihi:', this.departureDate);
